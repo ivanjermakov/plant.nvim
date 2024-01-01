@@ -21,9 +21,14 @@ use "ivanjermakov/plant.nvim"
 
 ```lua
 require("plant").setup({
+    -- Creates a new terminal buffer by default
+    create = function(key)
+        vim.cmd(":terminal")
+        return vim.api.nvim_get_current_buf()
+    end
 })
 ```
 
 ## Credits
 
-* Doc generator [lemmy-help](https://github.com/numToStr/lemmy-help)
+- Doc generator [lemmy-help](https://github.com/numToStr/lemmy-help)
