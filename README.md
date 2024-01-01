@@ -26,5 +26,4 @@ require("plant").setup({
 
 ## Credits
 
-* Inspired by [trld.nvim](https://github.com/Mofiqul/trld.nvim)
 * Doc generator [lemmy-help](https://github.com/numToStr/lemmy-help)
