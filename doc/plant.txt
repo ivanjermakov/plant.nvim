@@ -25,6 +25,7 @@ M.setup({cfg})                                                     *plant.setup*
 Config                                                     *plant.config.Config*
 
     Fields: ~
+        {toggle}  (boolean)   Whether opening the same key does nothing or returns to the last non-keyed buffer
         {create}  (function)  Create buffer by key
 
 

@@ -1,6 +1,7 @@
 ---@mod plant.config
 
 ---@class Config
+---@field toggle boolean Whether opening the same key does nothing or returns to the last non-keyed buffer
 ---@field create function Create buffer by key
 local M = {}
 
@@ -8,8 +9,10 @@ local M = {}
 ---Overriten by the config provided in setup()
 ---@type Config
 M.default_config = {
+    toggle = true,
     create = function(key)
         vim.cmd(":terminal")
+        vim.cmd(":setlocal nobuflisted")
         return vim.api.nvim_get_current_buf()
     end
 }

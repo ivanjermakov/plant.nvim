@@ -1,32 +1,56 @@
 ---@mod plant Neovim plugin for quick buffer switching
 
 local c = require("plant.config")
+local u = require("plant.util")
 
 local M = {}
 
-M.state = {}
+local function set_last_buf()
+    local curr = vim.api.nvim_get_current_buf()
+    if not u.contains(M.state.map, curr) then
+        M.state.last_buf = curr
+        vim.print(curr)
+        return true
+    end
+    vim.print(false)
+    return false
+end
+
+M.state = {
+    last_buf = nil,
+    map = {}
+}
 
 ---Open buffer with specified key
 ---@param key any
 M.open = function(key)
-    local existing = M.state[key]
-    if existing ~= nil then
-        vim.api.nvim_set_current_buf(existing)
-    else
-        vim.print(c)
+    if c.config.toggle and M.state.last_buf ~= nil and vim.api.nvim_get_current_buf() == M.state.map[key] then
+        vim.api.nvim_set_current_buf(M.state.last_buf)
+        M.state.last_buf = nil
+        return
+    end
+    local existing = M.state.map[key]
+    if existing == nil then
+        set_last_buf()
         local buf_id = c.config.create(key)
         if buf_id ~= nil and vim.api.nvim_buf_is_loaded(buf_id) then
-            vim.api.nvim_set_current_buf(buf_id)
-            M.state[key] = buf_id
+            M.state.map[key] = buf_id
         else
             vim.print("No default buffer for key `" .. key .. "`")
+            return
         end
+    else
+        set_last_buf()
+        vim.api.nvim_set_current_buf(existing)
     end
 end
 
 ---Clear state
 M.clear = function()
-    M.state = {}
+    M.state = {
+        last_buf = nil,
+        map = {}
+    }
 end
 
 ---Setup function
