@@ -9,10 +9,8 @@ local function set_last_buf()
     local curr = vim.api.nvim_get_current_buf()
     if not u.contains(M.state.map, curr) then
         M.state.last_buf = curr
-        vim.print(curr)
         return true
     end
-    vim.print(false)
     return false
 end
 
